@@ -12,6 +12,13 @@ const MONGO_URI = process.env.MONGO_URI;
 
 // CORS CONFIG
 const allowedOrigin = process.env.ALLOWED_ORIGIN || "https://habittracker9.netlify.app";
+console.log('ALLOWED_ORIGIN raw from env:', process.env.ALLOWED_ORIGIN);
+console.log('ALLOWED_ORIGIN after trim:', allowedOrigin);
+
+app.use((req, res, next) => {
+  console.log('Incoming Origin header:', req.headers.origin);
+  next();
+});
 
 app.use(cors({
     origin: allowedOrigin,
