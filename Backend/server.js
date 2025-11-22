@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
 // CORS CONFIG
-const allowedOrigin = process.env.ALLOWED_ORIGIN || "https://habittracker9.netlify.app/";
+const allowedOrigin = process.env.ALLOWED_ORIGIN || "https://habittracker9.netlify.app";
 
 app.use(cors({
     origin: allowedOrigin,
