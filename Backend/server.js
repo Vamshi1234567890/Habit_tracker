@@ -10,15 +10,26 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+// CORS CONFIG
+const allowedOrigin = process.env.ALLOWED_ORIGIN || "https://habittracker9.netlify.app/";
+
+app.use(cors({
+    origin: allowedOrigin,
+    credentials: true,
+}));
+
 // Middleware
-app.use(cors()); // Allow frontend to access the backend
-app.use(express.json()); // Body parser
+app.use(express.json());
 
 // Routes
 app.use('/api/habits', habitRoutes);
 
 // Database Connection
-mongoose.connect(MONGO_URI)
+mongoose.connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 10000,
+})
     .then(() => {
         console.log('MongoDB connected successfully.');
         app.listen(PORT, () => {
