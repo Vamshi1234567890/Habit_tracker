@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import habitRoutes from './src/routes/HabitRoutes.js';
+import habitRoutes from './src/routes/HabitRoutes.js'; // Must have .js
 
 dotenv.config();
 
@@ -10,33 +10,15 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// CORS CONFIG
-const allowedOrigin = process.env.ALLOWED_ORIGIN || "https://habittracker9.netlify.app";
-console.log('ALLOWED_ORIGIN raw from env:', process.env.ALLOWED_ORIGIN);
-console.log('ALLOWED_ORIGIN after trim:', allowedOrigin);
-
-app.use((req, res, next) => {
-  console.log('Incoming Origin header:', req.headers.origin);
-  next();
-});
-
-app.use(cors({
-    origin: allowedOrigin,
-    credentials: true,
-}));
-
 // Middleware
-app.use(express.json());
+app.use(cors()); // Allows frontend to connect
+app.use(express.json()); // Parses incoming JSON requests
 
 // Routes
-app.use('/api/habits', habitRoutes);
+app.use('/api/habits', habitRoutes); // Main API endpoint
 
 // Database Connection
-mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 10000,
-})
+mongoose.connect(MONGO_URI)
     .then(() => {
         console.log('MongoDB connected successfully.');
         app.listen(PORT, () => {

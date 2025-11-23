@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import HabitList from './components/HabitList';
 import AddHabitForm from './components/AddHabitForm';
-import './App.css';
+import './App.css'; 
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = 'http://localhost:5000/api/habits'; 
 
 function App() {
     const [habits, setHabits] = useState([]);
@@ -68,7 +68,7 @@ function App() {
             ) : (
                 <HabitList 
                     habits={habits} 
-                    onSortChange={fetchHabits}
+                    onSortChange={fetchHabits} 
                     onToggleCompletion={handleToggleCompletion}
                     onDeleteHabit={handleDeleteHabit} 
                 />

@@ -1,11 +1,11 @@
-import Habit from '../models/Habit.js';
-import { calculateHabitStats } from '../services/HabitService.js';
+import Habit from '../models/Habit.js'; // Must include .js
+import { calculateHabitStats } from '../services/HabitService.js'; // Must include .js
 
 // 1. Create Habit
 export const createHabit = async (req, res) => {
     try {
         const habit = await Habit.create(req.body);
-        res.status(201).json(habit);
+        res.status(201).json(calculateHabitStats(habit));
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
@@ -15,18 +15,14 @@ export const createHabit = async (req, res) => {
 export const getHabits = async (req, res) => {
     try {
         const habits = await Habit.find({});
-        
-        // Calculate stats for each habit
         const habitsWithStats = habits.map(calculateHabitStats);
 
-        // Apply sorting based on query parameter
         const { sort } = req.query; 
         if (sort === 'name') {
             habitsWithStats.sort((a, b) => a.name.localeCompare(b.name));
         } else if (sort === 'longestStreak') {
             habitsWithStats.sort((a, b) => b.longestStreak - a.longestStreak);
         } else {
-            // Default sort: currentStreak
             habitsWithStats.sort((a, b) => b.currentStreak - a.currentStreak);
         }
 
@@ -36,7 +32,7 @@ export const getHabits = async (req, res) => {
     }
 };
 
-// 3. Toggle Completion (Mark today’s habit as completed or not)
+// 3. Toggle Completion
 export const toggleCompletion = async (req, res) => {
     try {
         const { id } = req.params;
@@ -48,17 +44,15 @@ export const toggleCompletion = async (req, res) => {
         }
 
         const dateToToggle = inputDate.toISOString().split('T')[0];
-
-        // Find index of the date if it exists
         const dateIndex = habit.completionDates.findIndex(d => 
             d.toISOString().split('T')[0] === dateToToggle
         );
 
         if (dateIndex > -1) {
-            // Date found: Remove it (UNMARK)
+            // UNMARK
             habit.completionDates.splice(dateIndex, 1);
         } else {
-            // Date not found: Add it (MARK)
+            // MARK
             habit.completionDates.push(inputDate);
         }
 
