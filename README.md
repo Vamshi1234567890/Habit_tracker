@@ -36,6 +36,51 @@ Database: MongoDB (via Mongoose ODM)
 
 API Communication: Axios
 
+⚙️ Setup and Installation (Local Development)
+
+Follow these steps to get the application running on your local machine.
+
+Prerequisites
+
+Node.js (v18+) and npm
+
+MongoDB Atlas or a local MongoDB instance
+
+1. Backend Setup
+
+The backend handles API requests, database interactions, and streak calculations.
+
+Navigate to the backend directory:
+
+cd backend
+
+
+Install dependencies:
+
+npm install
+
+Create a .env file in the backend directory based on the provided .env.example and add your MongoDB connection string (MONGO_URI).
+
+Start the backend server (runs on http://localhost:5000):
+
+npm run dev
+
+
+2. Frontend Setup
+
+The frontend provides the user interface and connects to the running backend API.
+
+Navigate to the frontend directory (in a new terminal window):
+
+cd frontend
+
+Install dependencies:
+
+npm install
+
+npm start
+
 DEMO 
 
 https://amazing-creponne-443a12.netlify.app/
+
